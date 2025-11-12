@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Form Submission Page</title>
+</head>
+<body>
+    <h1>Submit Your Details</h1>
+    <form id="submissionForm">
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name"><br><br>
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email"><br><br>
+        <button type="button" onclick="submitForm()">Submit</button>
+    </form>
+
+    <script>
+        function submitForm() {
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            if (name && email) {
+                alert('Form submitted successfully!');
+            } else {
+                alert('Please fill in all fields');
+            }
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,44 @@
+pipeline {
+    agent any
+    tools {
+        git 'Default'  // Reference the named Git installation
+    }
+    stages {
+        stage('Checkout') {
+            steps {
+                git url: 'https://github.com/IvanMok510/Form-handon.git', branch: 'main'
+            }
+        }
+        stage('Start Web Server') {
+            steps {
+                // Start Python HTTP server in background
+                sh 'python3 -m http.server 8000 &'
+                sleep 5
+            }
+        }
+        stage('Install Dependencies') {
+            steps {
+                sh 'pip3 install -r requirements.txt'
+            }
+        }
+        stage('Run Selenium Tests') {
+            steps {
+                sh 'python3 py.py'
+            }
+        }
+    }
+    post {
+        always {
+            script {  // Use script block to handle exit codes gracefully
+                sh(script: 'pkill -f "python3 -m http.server"', returnStatus: true)  // Stop the Python server, ignore failure if none running
+                echo 'Pipeline complete.'
+            }
+        }
+        success {
+            echo 'Tests passed!'
+        }
+        failure {
+            echo 'Tests failed. Check console output.'
+        }
+    }
+}
