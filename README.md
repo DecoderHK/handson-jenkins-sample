@@ -18,7 +18,7 @@ A comprehensive demonstration project for automated web testing using Selenium W
 ├── login.html          # Login page with modern styling
 ├── form.html           # Form submission page
 ├── simple_test.py     # Original simple test script (legacy)
-├── test_login.py      # Comprehensive pytest test suite
+├── test_all.py      # Comprehensive pytest test suite
 ├── conftest.py        # Pytest configuration and shared fixtures
 ├── pytest.ini         # Pytest settings
 ├── requirements.txt   # Python dependencies
@@ -55,27 +55,27 @@ python3 -m http.server 8000
 
 ### Run all tests with pytest:
 ```bash
-./venv/bin/python3 -m pytest test_login.py -v
+./venv/bin/python3 -m pytest test_all.py -v
 ```
 
 ### Run specific test class:
 ```bash
-./venv/bin/python3 -m pytest test_login.py::TestLogin -v
+./venv/bin/python3 -m pytest test_all.py::TestLogin -v
 ```
 
 ### Run specific test:
 ```bash
-./venv/bin/python3 -m pytest test_login.py::TestLogin::test_successful_login -v
+./venv/bin/python3 -m pytest test_all.py::TestLogin::test_successful_login -v
 ```
 
 ### Run with HTML report:
 ```bash
-./venv/bin/python3 -m pytest test_login.py --html=reports/report.html --self-contained-html
+./venv/bin/python3 -m pytest test_all.py --html=reports/report.html --self-contained-html
 ```
 
 ### Run in headless mode (for CI/CD):
 ```bash
-HEADLESS=true ./venv/bin/python3 -m pytest test_login.py -v
+HEADLESS=true ./venv/bin/python3 -m pytest test_all.py -v
 ```
 
 ### Run original simple test script:
