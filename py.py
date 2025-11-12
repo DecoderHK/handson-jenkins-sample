@@ -48,8 +48,10 @@ try:
 
 except AssertionError as ae:
     print(f"Assertion failed: {ae}")
+    raise ae
 except Exception as e:
     print(f"An error occurred: {e}")
+    raise e
 finally:
     # Clean up: Close the browser
     driver.quit()
