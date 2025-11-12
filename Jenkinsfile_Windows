@@ -21,18 +21,20 @@ pipeline {
                 '''
             }
         }
-        stage('Start Web Server') {
-            steps {
-                bat "start /B python -m http.server 8000"
-                sleep 5
-            }
-        }
         stage('Install Dependencies') {
             steps {
                 bat '''
                 call %VENV_DIR%\\Scripts\\activate
                 python -m pip install --upgrade pip
                 pip install -r requirements.txt
+                '''
+            }
+        }
+        stage('Start Web Server') {
+            steps {
+                bat '''
+                start /B python -m http.server 8000 > nul 2>&1
+                timeout /t 5 /nobreak > nul
                 '''
             }
         }
@@ -53,7 +55,12 @@ pipeline {
     post {
         always {
             script {
-                bat(script: 'taskkill /F /IM python.exe', returnStatus: true)
+                bat '''
+                for /f "tokens=2" %%a in ('netstat -ano ^| findstr :8000 ^| findstr LISTENING') do (
+                    taskkill /F /PID %%a > nul 2>&1
+                )
+                taskkill /F /FI "WINDOWTITLE eq http.server*" > nul 2>&1
+                '''
                 echo 'Pipeline complete.'
             }
         }

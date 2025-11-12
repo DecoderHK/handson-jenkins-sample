@@ -21,18 +21,21 @@ pipeline {
                 '''
             }
         }
-        stage('Start Web Server') {
-            steps {
-                sh 'python3 -m http.server 8000 &'
-                sleep 5
-            }
-        }
         stage('Install Dependencies') {
             steps {
                 sh '''
                 source $VENV_DIR/bin/activate
                 pip install --upgrade pip
                 pip install -r requirements.txt
+                '''
+            }
+        }
+        stage('Start Web Server') {
+            steps {
+                sh '''
+                python3 -m http.server 8000 > /dev/null 2>&1 &
+                echo $! > /tmp/http_server.pid
+                sleep 5
                 '''
             }
         }
@@ -52,7 +55,13 @@ pipeline {
     post {
         always {
             script {
-                sh(script: 'pkill -f "python3 -m http.server"', returnStatus: true)
+                sh '''
+                if [ -f /tmp/http_server.pid ]; then
+                    kill $(cat /tmp/http_server.pid) 2>/dev/null || true
+                    rm -f /tmp/http_server.pid
+                fi
+                pkill -f "python3 -m http.server" || true
+                '''
                 echo 'Pipeline complete.'
             }
         }
