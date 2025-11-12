@@ -1,11 +1,20 @@
+"""
+Simple Selenium test script - original version.
+For comprehensive testing, use test_login.py with pytest instead.
+"""
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
-import time  # For optional delays during debugging
+import os
 
 # Initialize the WebDriver (Chrome in this case)
-driver = webdriver.Chrome()
+options = webdriver.ChromeOptions()
+if os.getenv('HEADLESS', 'false').lower() == 'true':
+    options.add_argument('--headless')
+options.add_argument('--no-sandbox')
+options.add_argument('--disable-dev-shm-usage')
+driver = webdriver.Chrome(options=options)
 
 try:
     # Step 1: Navigate to the login page
@@ -19,7 +28,7 @@ try:
     password_input.send_keys("pass")
 
     # Step 3: Click the login button
-    login_button = driver.find_element(By.TAG_NAME, "button")  # The only button on the page
+    login_button = driver.find_element(By.TAG_NAME, "button")
     login_button.click()
 
     # Step 4: Wait for navigation to form page (verify URL change)
@@ -36,7 +45,7 @@ try:
     email_input.send_keys("john@example.com")
 
     # Step 6: Click the submit button
-    submit_button = driver.find_element(By.TAG_NAME, "button")  # The button on the form page
+    submit_button = driver.find_element(By.TAG_NAME, "button")
     submit_button.click()
 
     # Step 7: Handle and verify the alert (submission success)

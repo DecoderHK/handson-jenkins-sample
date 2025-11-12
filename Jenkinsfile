@@ -37,10 +37,15 @@ pipeline {
             }
         }
         stage('Run Selenium Tests') {
+            environment {
+                HEADLESS = 'true'
+            }
             steps {
                 bat '''
                 call %VENV_DIR%\\Scripts\\activate
-                python py.py
+                if not exist reports mkdir reports
+                if not exist screenshots mkdir screenshots
+                python -m pytest test_login.py -v --html=reports/report.html --self-contained-html
                 '''
             }
         }
