@@ -206,7 +206,7 @@ class TestFormSubmission:
             EC.presence_of_element_located((By.ID, "errorMessage"))
         )
         assert "error-message" in error_message.get_attribute("class"), "Error message should be displayed"
-        assert "show!" in error_message.get_attribute("class"), "Error message should be visible"
+        assert "show" in error_message.get_attribute("class"), "Error message should be visible"
     
     def test_form_submission_without_email(self, driver):
         """Test form submission without email field."""
