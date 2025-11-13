@@ -4,7 +4,7 @@ pipeline {
         git 'Default'  // Reference the named Git installation
     }
     environment {
-        VENV_DIR = 'venv'
+        VENV_DIR = 'venv2'
     }
     stages {
         stage('Checkout') {
