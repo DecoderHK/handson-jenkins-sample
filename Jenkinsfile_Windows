@@ -32,8 +32,8 @@ pipeline {
         }
         stage('Start Web Server') {
             steps {
-                bat '''
-                start /B C:\\Users\\user\\AppData\\Local\\Programs\\Python\\Python312\\python.exe -m http.server 8000 > nul 2>&1
+                powershell '''
+                start /B python -m http.server 8000 > nul 2>&1
                 timeout /t 5 /nobreak > nul
                 '''
             }
