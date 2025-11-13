@@ -16,7 +16,7 @@ pipeline {
             steps {
                 bat '''
                 if not exist %VENV_DIR% (
-                    python -m venv %VENV_DIR%
+                    py -m venv %VENV_DIR%
                 )
                 '''
             }
@@ -25,7 +25,7 @@ pipeline {
             steps {
                 bat '''
                 call %VENV_DIR%\\Scripts\\activate
-                python -m pip install --upgrade pip
+                py -m pip install --upgrade pip
                 pip install -r requirements.txt
                 '''
             }
@@ -33,7 +33,7 @@ pipeline {
         stage('Start Web Server') {
             steps {
                 bat '''
-                start /B python -m http.server 8000 > nul 2>&1
+                start /B py -m http.server 8000 > nul 2>&1
                 timeout /t 5 /nobreak > nul
                 '''
             }
