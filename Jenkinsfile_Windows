@@ -43,11 +43,11 @@ pipeline {
                 HEADLESS = 'true'
             }
             steps {
-                bat '''
-                call %VENV_DIR%\\Scripts\\activate
-                if not exist reports mkdir reports
-                if not exist screenshots mkdir screenshots
-                C:\\Users\\user\\AppData\\Local\\Programs\\Python\\Python312\\python.exe -m pytest test_all.py -v --html=reports/report.html --self-contained-html
+                powershell '''
+                & .\\${env:VENV_DIR}\\Scripts\\Activate.ps1
+                if (!(Test-Path reports)) { New-Item -ItemType Directory -Path reports }
+                if (!(Test-Path screenshots)) { New-Item -ItemType Directory -Path screenshots }
+                python -m pytest test_all.py -v --html=reports/report.html --self-contained-html
                 '''
             }
         }
