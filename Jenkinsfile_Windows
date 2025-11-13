@@ -16,7 +16,7 @@ pipeline {
             steps {
                 bat '''
                 if not exist %VENV_DIR% (
-                    py -m venv %VENV_DIR%
+                    C:\\Users\\user\\AppData\\Local\\Programs\\Python\\Python312\\python.exe -m venv %VENV_DIR%
                 )
                 '''
             }
@@ -25,7 +25,7 @@ pipeline {
             steps {
                 bat '''
                 call %VENV_DIR%\\Scripts\\activate
-                py -m pip install --upgrade pip
+                C:\\Users\\user\\AppData\\Local\\Programs\\Python\\Python312\\python.exe -m pip install --upgrade pip
                 pip install -r requirements.txt
                 '''
             }
@@ -33,7 +33,7 @@ pipeline {
         stage('Start Web Server') {
             steps {
                 bat '''
-                start /B py -m http.server 8000 > nul 2>&1
+                start /B C:\\Users\\user\\AppData\\Local\\Programs\\Python\\Python312\\python.exe -m http.server 8000 > nul 2>&1
                 timeout /t 5 /nobreak > nul
                 '''
             }
@@ -47,7 +47,7 @@ pipeline {
                 call %VENV_DIR%\\Scripts\\activate
                 if not exist reports mkdir reports
                 if not exist screenshots mkdir screenshots
-                python -m pytest test_all.py -v --html=reports/report.html --self-contained-html
+                C:\\Users\\user\\AppData\\Local\\Programs\\Python\\Python312\\python.exe -m pytest test_all.py -v --html=reports/report.html --self-contained-html
                 '''
             }
         }
