@@ -23,9 +23,9 @@ pipeline {
         }
         stage('Install Dependencies') {
             steps {
-                bat '''
+                powershell '''
                 call %VENV_DIR%\\Scripts\\activate
-                C:\\Users\\user\\AppData\\Local\\Programs\\Python\\Python312\\python.exe -m pip install --upgrade pip
+                python -m pip install --upgrade pip
                 pip install -r requirements.txt
                 '''
             }
@@ -33,8 +33,8 @@ pipeline {
         stage('Start Web Server') {
             steps {
                 powershell '''
-                start /B python -m http.server 8000 > nul 2>&1
-                timeout /t 5 /nobreak > nul
+                Start-Job -ScriptBlock { python -m http.server 8000 } | Out-Null
+                Start-Sleep -Seconds 5
                 '''
             }
         }
